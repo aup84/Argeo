@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="Cara" size="5.000000 5.000000" />
+    <ImageTarget name="Cubo" size="5.000000 5.000000" />
+    <ImageTarget name="Base" size="5.000000 5.000000" />
+    <ImageTarget name="Prisma_Decagonal" size="5.000000 5.012691" />
+    <ImageTarget name="Prisma_Hexagonal" size="5.000000 5.000000" />
+    <ImageTarget name="Prisma_Pentagonal" size="5.000000 4.987715" />
+    <ImageTarget name="Prisma_Cuadrangular" size="5.000000 5.000000" />
+    <ImageTarget name="Prisma_Triangular" size="5.000000 5.016835" />
+    <ImageTarget name="Cilindro" size="5.000000 5.016611" />
+  </Tracking>
+</QCARConfig>
