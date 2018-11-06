@@ -9,11 +9,11 @@ using UnityEngine.SceneManagement;
 
 public class Juego : MonoBehaviour
 {
-    Text txtCorrectos, txtBase, txtAltura, txtErrores, txtTarget, txtTiempo2, txtAyudas, txtFind, lblInfo, txtStatus, lblObjetivo;
+    Text txtCorrectos, txtBase, txtAltura, txtErrores, txtTarget, txtTiempo2, txtAyudas, txtFind, lblInfo, txtStatus, lblObjetivo, txtId;
+    private int finished = 0;
     static int errores, correctos;
-    int IdFig = 0, nAyudas = 0;
+    int IdFig = 0, nAyudas = 0, level;
     string target, find;
-    //GameObject figura;
     static GameObject pnlValidar;
     GameObject pnlPausa, pnlAyuda;
     ReglasJuego reglas;
@@ -25,12 +25,10 @@ public class Juego : MonoBehaviour
     Text txtTiempo;
     FuzzyLogic fl;
 
-    void Start()
-    {
-        //LoadData load = new LoadData();
-        //resul = load.CrearLista();
+    void Start(){
         tiempo = 0d;
         txtBase = GameObject.Find("txtBase").GetComponent<Text>();
+        txtId = GameObject.Find("txtId").GetComponent<Text>();
         txtTiempo = GameObject.Find("txtTiempo").GetComponent<Text>();
         txtTiempo2 = GameObject.Find("txtTiempo2").GetComponent<Text>();
         txtAyudas = GameObject.Find("txtAyudas").GetComponent<Text>();
@@ -51,28 +49,19 @@ public class Juego : MonoBehaviour
         errores = 0;
         correctos = 0;
         tiempo2 = 0;
+        level = 1;
         tempTiempo = 0;
-
-        //resul = new List<Resultados3>();
+      
         reglas = ReglasJuego.Instance;
         resul = reglas.Datos;
 
-
         pnlValidar.GetComponent<RectTransform>().localScale = Vector3.zero;
-        SigObj();
+        SigObj(level);
         StartCoroutine("ControlTiempo");
-
-        if (Application.isMobilePlatform)
-        {
-            GameObject.Find("btnValidar").GetComponent<Transform>().localScale = Vector3.zero;
-        }
-        //fl = new FuzzyLogic();
     }
 
-    IEnumerator ControlTiempo()
-    {
-        try
-        {
+    IEnumerator ControlTiempo(){
+        try{
             tiempo = double.Parse(txtTiempo.text, System.Globalization.NumberStyles.Any);
             tiempo2 = double.Parse(txtTiempo2.text, System.Globalization.NumberStyles.Any);
             tiempo += Time.deltaTime;
@@ -80,60 +69,47 @@ public class Juego : MonoBehaviour
             txtTiempo.text = "" + tiempo.ToString("F");
             txtTiempo2.text = "" + tiempo2.ToString("F");
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             Debug.Log(e.Message);
         }
         yield return new WaitForSeconds(0);
     }
 
-    public void PausarTiempo()
-    {
+    public void PausarTiempo(){
         Debug.Log("Parando Rutina Tiempo");
         StopCoroutine("ControlTiempo");
     }
 
-    void Update()
-    {           // Update is called once per frame
-        if (detener == false)
-        {
+    void Update() {           // Update is called once per frame
+        if (detener == false) {
             StartCoroutine("ControlTiempo");
         }
     }
 
-    public void SigObj(){
+    public void SigObj(int nivel){
         pnlPausa.SetActive(true);
         pnlPausa.GetComponent<RectTransform>().localScale = Vector3.zero;
-        reglas.VerListaCompleta();
-        target = reglas.GetNextItem();
-        IdFig = reglas.GetNextItemId();
-        Debug.Log("ID Figura:  " + IdFig + "    Target" + target);
+
+        FiguraGeo f2 = reglas.GetNext(nivel);
+        
+        IdFig = f2.IdFigura;
+        txtId.text = IdFig.ToString();
+
+        target = f2.Figura;
         txtTarget.text = target;
+        Debug.Log("ID Figura:  " + IdFig + "    Target" + target);
     }
 
-    public void SigObj(int nivel)
-    {
-        pnlPausa.SetActive(true);
-        pnlPausa.GetComponent<RectTransform>().localScale = Vector3.zero;
-        reglas.VerListaCompleta();
-        target = reglas.GetNextItem();
-        IdFig = reglas.GetNextItemId();
-        Debug.Log("ID Figura:  " + IdFig + "    Target" + target);
-        txtTarget.text = target;
-    }
 
-    public void GetLista()
-    {
+    public void GetLista(){
         terminados = reglas.getLista();
     }
 
-    public static List<FiguraGeo> Listado()
-    {
+    public static List<FiguraGeo> Listado(){
         return resul;
     }
 
-    IEnumerator MostrarPanel(bool result, string aviso, string opcion)
-    {
+    IEnumerator MostrarPanel(bool result, string aviso, string opcion){
         pnlPausa.SetActive(true);
         pnlPausa.GetComponent<RectTransform>().localScale = new Vector3(0.3f, 0.5f, 1f);
         RawImage raw2 = GameObject.Find("RawPausa").GetComponent<RawImage>();
@@ -178,11 +154,13 @@ public class Juego : MonoBehaviour
         pnlPausa.GetComponent<RectTransform>().localScale = new Vector3(0, 0, 0);
     }
 
-    public static float getVolumen(string concepto, int campo)
+    public static float getVolumen(string concepto, int campo, int idFigura)
     {
         if (resul.Count > 0)
         {
-            var temp = resul.Find(r3 => r3.Figura == concepto);
+            Debug.Log("Concepto: " + concepto + " TIpo: " + campo + " idFigura: " + idFigura);
+            var temp = resul.Find (r3 => r3.Figura == concepto && r3.IdFigura == idFigura);
+            
             switch (campo)
             {
                 case 1:
@@ -201,15 +179,13 @@ public class Juego : MonoBehaviour
         }
         return -1;
     }
-
-    public void OcultarPanel()
-    {
+   
+    public void OcultarPanel(){
         pnlPausa.GetComponent<RectTransform>().localScale = Vector3.zero;
         pnlAyuda.GetComponent<RectTransform>().localScale = Vector3.zero;
     }
 
-    void OcultarGameObjects()
-    {
+    void OcultarGameObjects() {
         txtBase.text = "";
         GameObject.Find("txtApotema").GetComponent<Text>().text = "";
         GameObject.Find("lblApotema").GetComponent<Text>().text = "";
@@ -236,8 +212,8 @@ public class Juego : MonoBehaviour
         string str = "";
         string opcion = "";
         GetLista();
-        if (terminados.Count > 2)
-        {
+        //if (terminados.Count > resul.Count() * 0.40)
+        if (finished < 10) {
             if (txtStatus.text.Equals(""))
             {
                 Debug.Log("Lo detecta como vacio");
@@ -248,7 +224,7 @@ public class Juego : MonoBehaviour
 
             if (lblInfo.text.Contains("Area"))
             {
-                respuesta = getVolumen(txtTarget.text, 5);
+                respuesta = getVolumen(txtTarget.text, 5, IdFig);
                 if (respuesta <= (cantidad + 0.1) && respuesta >= (cantidad - 0.1))
                 {
                     resultado = true;
@@ -261,40 +237,63 @@ public class Juego : MonoBehaviour
                 }
                 else
                 {
+                    errores = Convert.ToInt32(GameObject.Find("txtErrores").GetComponent<Text>().text);
                     errores++;
                     txtErrores.text = errores.ToString();
                     str = "Incorrecto. El Área de la base de un " + txtTarget.text + " se calcula";
                     resultado = false;
-                    opcion = "Area";
-                    reglas.ListToRepeat(resul.First());
+                    opcion = "Area";                 
                 }
             }
             else
             {
-                respuesta = getVolumen(txtTarget.text, 4);
+                respuesta = getVolumen(txtTarget.text, 4, IdFig);
                 if (respuesta <= (cantidad + 0.1) && respuesta >= (cantidad - 0.1))
                 {
                     resultado = true;
                     correctos++;
                     txtCorrectos.text = correctos.ToString();
+                    finished++;
                     str = "Correcto, presiona continuar para el siguiente objetivo";
                     lblObjetivo.text = "Coloca sobre la cámara el marcador de la figura que se te pide";
-                    reglas.QuitarElemento(txtTarget.text, IdFig);
                     txtFind.text = "";
                     OcultarGameObjects();
+                    
+                    reglas.QuitarElemento(txtTarget.text, IdFig);
+                    Debug.Log("Se ha eliminado " + txtTarget.text + "  con el ID " + IdFig);
+                    reglas.VerListaCompleta();
 
                     //Fuzzy Logic
                     tempTiempo = Math.Round(tiempo2 / 150, 3);
+                    tempTiempo = (tempTiempo < 1) ? tempTiempo : 1d;
                     txtTiempo2.text = "0.0";
                     tiempo2 = 0;
                     double denominador = correctos + errores + nAyudas;
-                    FuzzyLogic fuzzy = new FuzzyLogic(correctos/ denominador, errores / denominador, tempTiempo, nAyudas / denominador);
-
+                    FuzzyLogic fuzzy = new FuzzyLogic(correctos / denominador, errores / denominador, tempTiempo, nAyudas / denominador);
                     double d = fuzzy.Inferencias();
-                    GameObject.Find("txtNivel").GetComponent<Text>().text = Math.Round(d, 4) + "";
-                    //Determina el siguiente objetivo 
+                    int level = fuzzy.FuzzyToCrisp(d);
 
-                    SigObj();
+                    int ant = Convert.ToInt32(GameObject.Find("txtNivel").GetComponent<Text>().text);
+                    if ((ant - level) == 0 || (ant - level) == 1 || (ant - level) == -1)
+                        {
+                        Debug.Log("Se queda en el nivel " + level);
+                    }
+                    else if ((ant - level) < 0) {                         
+                  //      Debug.Log(" Se procede a cambiar del nivel " + level + " al  " + (ant+1));
+                        level = ant + 1;
+                    }
+                    else {
+                  //      Debug.Log(" Cambiando de nivel " + level + " al nivel " + (ant-1));
+                        level = ant - 1;
+                    }
+
+                    GameObject.Find("txtNivel").GetComponent<Text>().text = level.ToString(); // + "    " + Math.Round(d,4);
+                    Debug.Log("txtNivel se ha actualizado a : " + level);
+                    //Termina Fuzzy Logic
+
+                    
+                    //Determina el siguiente objetivo   
+                    SigObj(level);
                     pnlValidar.GetComponent<RectTransform>().localScale = Vector3.zero;
                     GameObject.Find("pnlDatos").GetComponent<RectTransform>().localScale = Vector3.zero;
                     lblInfo.text = "Area";
@@ -304,6 +303,7 @@ public class Juego : MonoBehaviour
                 else
                 {
                     opcion = "Volumen";
+                    errores = Convert.ToInt32(GameObject.Find("txtErrores").GetComponent<Text>().text);                    
                     errores++;
                     txtErrores.text = errores.ToString();
                     str = "Incorrecto, Te recordamos que la fórmula del Volumen es:";
@@ -313,14 +313,16 @@ public class Juego : MonoBehaviour
             StartCoroutine(MostrarPanel(resultado, str, opcion));
             ClearInputField();
         }
-        else if (terminados.Count <= 2)
+        else if (terminados.Count <= resul.Count() *0.40)
         {
             Avance();
         }
     }
 
     public bool Avance()    {
-        if (terminados.Count <= resul.Count * 0.2)       { //el juego termina cuando quede el 20% de los ejercicios
+        //if (terminados.Count <= resul.Count * 0.4)       { //el juego termina cuando quede el 20% de los ejercicios
+
+        if (finished >= 10) { 
             detener = true;
             Vuforia.CameraDevice.Instance.Stop();
             GameObject.Find("ARCamera").GetComponent<Camera>().clearFlags = CameraClearFlags.Skybox;
@@ -335,11 +337,9 @@ public class Juego : MonoBehaviour
         return true;
     }
 
-    public string GetImgAyuda()
-    {
+    public string GetImgAyuda(){
         string arch = "";
-        switch (target)
-        {
+        switch (target){
             case "Prisma Triangular":
                 arch = "AreaT.png";
                 break;
@@ -361,12 +361,6 @@ public class Juego : MonoBehaviour
         txtStatus.text = "";
         GameObject.Find("btnPunto").GetComponent<BtnAcciones>().enabled = true;
         GameObject.Find("btnPunto").GetComponent<Button>().enabled = true;
-    }
-
-    public int GetNivel()
-    {
-        System.Random rnd = new System.Random();
-        return rnd.Next(1, 5);
     }
 
     public void ObtenerAyuda() {
@@ -393,8 +387,7 @@ public class Juego : MonoBehaviour
         }       
     }
 
-    IEnumerator MostrarPanel2(string aviso)
-    {
+    IEnumerator MostrarPanel2(string aviso){
         pnlAyuda.SetActive(true);
         pnlAyuda.GetComponent<RectTransform>().localScale = new Vector3(0.3f, 0.5f, 1f);
         

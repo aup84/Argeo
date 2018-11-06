@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{F20F9257-E776-D57A-496A-1D537D699E2A}</ProjectGuid>
+    <ProjectGuid>{F297EF70-873B-E5E4-2F98-798812E46282}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>VuforiaScripts</AssemblyName>
@@ -242,7 +242,7 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Unity.Locator.dll</HintPath>
     </Reference>
     <Reference Include="Facebook.Unity.Settings">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
@@ -305,16 +305,16 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/Facebook/UnityEditor.Facebook.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/System.Data.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/System.Data.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/AForge.NET/AForge.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/AForge.NET/AForge.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Fuzzy">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/AForge.NET/AForge.Fuzzy.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/AForge.NET/AForge.Fuzzy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Users/Aldo/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>

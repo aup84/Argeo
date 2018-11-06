@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{E5C808E4-A593-F8F8-172D-F503470665F1}</ProjectGuid>
+    <ProjectGuid>{DBFDF401-93FF-6D29-85D4-5B839EFC4EE3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -74,6 +74,7 @@
     <Compile Include="Assets\scripts\ConstruirFig\Aux1.cs" />
     <Compile Include="Assets\scripts\ConstruirFig\Camara.cs" />
     <Compile Include="Assets\scripts\ConstruirFig\CuerposInfo.cs" />
+    <Compile Include="Assets\scripts\ConstruirFig\FuzzyConstruirFig.cs" />
     <Compile Include="Assets\scripts\ConstruirFig\MoverConTeclado.cs" />
     <Compile Include="Assets\scripts\ConstruirFig\moverObj.cs" />
     <Compile Include="Assets\scripts\ConstruirFig\RayCastCF.cs" />
@@ -160,16 +161,16 @@
     <None Include="Assets\Vuforia\Shaders\Text3D.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -346,7 +347,7 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Unity.Locator.dll</HintPath>
     </Reference>
     <Reference Include="Facebook.Unity.Settings">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
@@ -370,16 +371,16 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/System.Data.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/System.Data.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/AForge.NET/AForge.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/AForge.NET/AForge.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Fuzzy">
-      <HintPath>C:/Users/Aldo/Documents/Unity18/NewStem/Assets/Plugins/AForge.NET/AForge.Fuzzy.dll</HintPath>
+      <HintPath>C:/Users/Aldo/Documents/Unity18/Argeo/Assets/Plugins/AForge.NET/AForge.Fuzzy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/Aldo/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
@@ -417,11 +418,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="VuforiaScripts.csproj">
-      <Project>{F20F9257-E776-D57A-496A-1D537D699E2A}</Project>
+      <Project>{F297EF70-873B-E5E4-2F98-798812E46282}</Project>
       <Name>VuforiaScripts</Name>
     </ProjectReference>
     <ProjectReference Include="VuforiaEditorScripts.csproj">
-      <Project>{66227C9A-B09E-0DD3-6354-2FF41933F915}</Project>
+      <Project>{6EE257E3-9A68-2C18-E7E0-8D84A42460ED}</Project>
       <Name>VuforiaEditorScripts</Name>
     </ProjectReference>
   </ItemGroup>

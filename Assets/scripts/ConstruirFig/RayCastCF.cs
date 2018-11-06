@@ -9,25 +9,29 @@ using System;
 public class RayCastCF : MonoBehaviour {
 	string target;
 	int encontradas, consecutivas, puntos, errores, final;
-	Text txtTarget, lblStatus, txtFind, txtPuntos, txtConsecutivas, txtTiempo, txtAviso;
+	Text txtTarget, lblStatus, txtFind, txtPuntos, txtConsecutivas, txtTiempo, txtTiempo2, txtAviso, txtAyudas;
 	CuerposInfo inf;
 	RawImage raw2, imgObjetivo;
 	GameObject pnlPausa;
-	double tiempo;
-	bool quitadas = false;
+    double tiempo, tiempo2, tempTiempo;
+    int nAyudas = 0;
+    bool quitadas = false;
+    FuzzyLogic fl;
 
-	void Start () {				// Use this for initialization
+    void Start () {				// Use this for initialization
 		tiempo = 0d;
 		raw2 = GameObject.Find ("RawPausa").GetComponent<RawImage> ();
 		imgObjetivo = GameObject.Find ("imgObjetivo").GetComponent<RawImage> ();
 		inf = new CuerposInfo ();
 		txtTiempo = GameObject.Find ("txtTiempo").GetComponent<Text> ();
-		txtTarget = GameObject.Find ("txtTarget").GetComponent<Text> ();
+        txtAyudas = GameObject.Find("txtAyudas").GetComponent<Text>();
+        txtTiempo2 = GameObject.Find("txtTiempo2").GetComponent<Text>();
+        txtTarget = GameObject.Find ("txtTarget").GetComponent<Text> ();
 		txtFind = GameObject.Find ("txtFind").GetComponent<Text> ();
-		target = inf.getNextItem ();
+		target = inf.GetNextItem ();
 		txtTiempo.text = "0";
 		//txtTarget.text = inf.getDescripcion (target);
-		txtTarget.text = inf.getNextItemCorte();
+		txtTarget.text = inf.GetNextItemCorte();
 		CambiarImgObj ();
 		//CambiarImg (target);
 		Debug.Log ("El objetivo es: " + target);
@@ -61,10 +65,14 @@ public class RayCastCF : MonoBehaviour {
 
 	IEnumerator ControlTiempo(){
 		try {
-			tiempo = double.Parse (txtTiempo.text, System.Globalization.NumberStyles.Any);
-			tiempo += Time.deltaTime;
-			txtTiempo.text = "" + tiempo.ToString ("F");
-		} 
+			tiempo = double.Parse(txtTiempo.text, System.Globalization.NumberStyles.Any);
+            tiempo2 = double.Parse(txtTiempo2.text, System.Globalization.NumberStyles.Any);
+            tiempo += Time.deltaTime;
+            tiempo2 += Time.deltaTime;
+            txtTiempo.text = "" + tiempo.ToString("F");
+            txtTiempo2.text = "" + tiempo2.ToString("F");
+
+        } 
 		catch (Exception e) {
 			Debug.Log (e.Message);
 		}
@@ -93,7 +101,7 @@ public class RayCastCF : MonoBehaviour {
 				string nom2 = nom = nom.Substring (0, nom.Length - 1);
 
 				if (!nom.Equals ("GUI") && !nom.Equals ("Plane")) {
-					txtFind.text = inf.getDescripcion(nom2);
+					txtFind.text = inf.GetDescripcion(nom2);
 					Debug.Log ("Detectado: " + hitInfo.collider.gameObject.name + ", Objetivo: "+ target);
 					if (target.Equals (nom)) {
 						consecutivas++;
@@ -101,7 +109,7 @@ public class RayCastCF : MonoBehaviour {
 						puntos += 100;
 						hitInfo.collider.gameObject.GetComponent<Transform> ().localScale = Vector3.zero;
 
-						inf.getDescripcion (nom2);
+						inf.GetDescripcion (nom2);
 						if (consecutivas == 1) {
 							imgObjetivo.GetComponent<RectTransform> ().localScale = new Vector3 (4f, 3f, 4f);
 							CambiarImg (target);
@@ -116,12 +124,45 @@ public class RayCastCF : MonoBehaviour {
 							txtAviso.text = "Lo lograste, ahora avanza al siguiente objetivo";
 							txtAviso.text = txtAviso.text + " " + txtTarget.text;
 							inf.QuitarElemento (nom);
-							target = inf.getNextItem ();
+
+
+                            //Fuzzy Logic
+                            tempTiempo = Math.Round(tiempo2 / 150, 3);
+                            tempTiempo = (tempTiempo < 1) ? tempTiempo : 1d;
+                            txtTiempo2.text = "0.01";
+                            tiempo2 = 0;
+                            double denominador = encontradas + errores + nAyudas;
+                            FuzzyLogic fuzzy = new FuzzyLogic(encontradas / denominador, errores / denominador, tempTiempo, nAyudas / denominador);
+                            double d = fuzzy.Inferencias();
+                            int level = fuzzy.FuzzyToCrisp(d);
+
+                            int ant = Convert.ToInt32(GameObject.Find("txtNivel").GetComponent<Text>().text);
+                            if ((ant - level) == 0 || (ant - level) == 1 || (ant - level) == -1)
+                            {
+                                Debug.Log("Se queda en el nivel " + level);
+                            }
+                            else if ((ant - level) < 0)
+                            {
+                                //      Debug.Log(" Se procede a cambiar del nivel " + level + " al  " + (ant+1));
+                                level = ant + 1;
+                            }
+                            else
+                            {
+                                //      Debug.Log(" Cambiando de nivel " + level + " al nivel " + (ant-1));
+                                level = ant - 1;
+                            }
+
+                            GameObject.Find("txtNivel").GetComponent<Text>().text = level.ToString(); // + "    " + Math.Round(d,4);
+                            Debug.Log("txtNivel se ha actualizado a : " + level);
+                            //Termina Fuzzy Logic
+
+
+                            target = inf.GetNextItem ();
 							if (!target.Contains("Cil") && !quitadas){
 								quitadas = true;
 								DestruirCilindros();
 							}
-							txtTarget.text = inf.getNextItemCorte();
+							txtTarget.text = inf.GetNextItemCorte();
 							Debug.Log ("Cambiaremos de Objetivo a " + target);
 							CambiarImg ("nada");
 							imgObjetivo.GetComponent<RectTransform> ().localScale = Vector3.zero;
@@ -142,7 +183,7 @@ public class RayCastCF : MonoBehaviour {
 						MostrarPanel (false);
 						txtAviso = GameObject.Find ("txtAviso").GetComponent<Text> ();
 						txtAviso.text = "Incorrecto, se te pide que encuentres los fragmentos para armar la figura ";
-						txtAviso.text = txtAviso.text + " " + inf.getNextItemFigura ();// + " " + txtTarget.text;
+						txtAviso.text = txtAviso.text + " " + inf.GetNextItemFigura ();// + " " + txtTarget.text;
 						Debug.Log ("A:  " + nom  + "A" + ", " + nom + "B");
 						PausarJuego ();
 						VerAyuda(txtTarget.text, target);
@@ -296,6 +337,7 @@ public class RayCastCF : MonoBehaviour {
 	public string VerAyuda(string corte, string fig){
 		string respuesta = "";
 		string imagen = GetNomImg (target);
+        Debug.Log("corte  " + corte + "   fig   " + fig);
 		Texture2D textura = new Texture2D (150, 150, TextureFormat.RGBA32, false);
 		if (Application.isMobilePlatform) {
 			string ruta = Application.streamingAssetsPath + "/images/ConstruirFig/help/" + imagen; 
@@ -312,4 +354,48 @@ public class RayCastCF : MonoBehaviour {
 
 		return respuesta;
 	}
+
+    public void ObtenerAyuda() {     
+        nAyudas++;
+        txtAyudas.text = nAyudas.ToString();
+        PausarJuego();
+        pnlPausa.GetComponent<RectTransform>().localScale = new Vector3(0.31f, 0.5f, 0.3f);
+        txtAviso = GameObject.Find("txtAviso").GetComponent<Text>();
+        txtAviso.text = "Necesitas encontrar las dos mitades que forman la figura de la imagen";
+        Debug.Log(target);
+        VerAyuda(txtTarget.text, target);
+    }
 }
+/*
+ ublic void MostrarPanel(bool result){
+		Debug.Log ("Pausando juego");
+		pnlPausa.GetComponent<RectTransform>().localScale = new Vector3 (0.31f, 0.5f, 0.3f);
+
+		txtAviso = GameObject.Find("txtAviso").GetComponent<Text>();
+		string arch = "incorrecto.png";
+		if (result) {
+			if (target.Contains("Cil")){
+				arch = "Cilindro.png";
+			}
+			else{
+				arch = "Cono.png";		
+			}
+		}
+
+		Texture2D textura = new Texture2D (150, 150, TextureFormat.RGBA32, false);
+		if (Application.isMobilePlatform) {
+			string ruta = Application.streamingAssetsPath + "/images/" + arch; 
+
+			WWW www = new WWW (ruta);
+			while (!www.isDone) {
+			}
+			www.LoadImageIntoTexture (textura);
+		}
+		else {
+			textura.LoadImage(File.ReadAllBytes(Application.dataPath + "/images/" + arch));
+		}
+		raw2.texture = textura;
+		Text txtPausar = GameObject.Find("txtPausar").GetComponent<Text>();
+		txtPausar.text = "Si";
+	}
+     */

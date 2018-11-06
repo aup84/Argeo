@@ -5,20 +5,21 @@ using System.Threading;
 using AForge.Fuzzy;
 using System;
 
-public class FuzzyLogic {
+public class FuzzyConstruirFig {
     private InferenceSystem IS;
     private Thread thMovement;
-   // private bool FirstInference;    
+    // private bool FirstInference;    
     double ntiempo, naciertos, nerrores, nayuda;
     LinguisticVariable lvDificultad;
     //Constructor
-    public FuzzyLogic(double naciertos, double nerrores, double ntiempo, double nayuda) {
+    public FuzzyConstruirFig (double naciertos, double nerrores, double ntiempo, double nayuda)
+    {
         this.naciertos = naciertos;
         this.nerrores = nerrores;
         this.ntiempo = ntiempo;
         this.nayuda = nayuda;
         InitFuzzyEngine();
-      //  FirstInference = true;
+        //  FirstInference = true;
     }
 
     void InitFuzzyEngine()
@@ -175,7 +176,7 @@ public class FuzzyLogic {
         IS.NewRule("RULE 79", "IF Aciertos IS Normal AND Tiempo IS Slow AND Errores IS Normal AND Ayuda IS Low THEN Dificultad IS Normal");
         IS.NewRule("RULE 80", "IF Aciertos IS Normal AND Tiempo IS Slow AND Errores IS Normal AND Ayuda IS Normal THEN Dificultad IS Normal");
         IS.NewRule("RULE 81", "IF Aciertos IS Normal AND Tiempo IS Slow AND Errores IS Normal AND Ayuda IS High THEN Dificultad IS Weak");
-        
+
     }
     /*
     public static void Main(string[] args) {
@@ -184,26 +185,28 @@ public class FuzzyLogic {
 
     }
     */
-    public double Inferencias() {
+    public double Inferencias()
+    {
         double d = DoInference();
-     //   Debug.LogFormat("Nivel actual : " +FuzzyToCrisp(d));
+        //   Debug.LogFormat("Nivel actual : " +FuzzyToCrisp(d));
         return d;
     }
 
-    private double DoInference()    {
+    private double DoInference()
+    {
         /*  Normalizar datos) */
         double dificultad = 0;
-       
+
         IS.SetInput("Aciertos", naciertos);
-        IS.SetInput("Errores",  nerrores);
+        IS.SetInput("Errores", nerrores);
         IS.SetInput("Tiempo", ntiempo);
         IS.SetInput("Ayuda", nayuda);
         Debug.Log("v1: " + naciertos + "   v2: " + nerrores + "      v3: " + ntiempo + "      v4 " + nayuda);
-       
+
         // Setting outputs
         try
         {
-            dificultad = IS.Evaluate("Dificultad");            
+            dificultad = IS.Evaluate("Dificultad");
         }
         catch (Exception)
         {
@@ -211,9 +214,10 @@ public class FuzzyLogic {
 
         return dificultad;
     }
-    public int FuzzyToCrisp(double valorIS) {
+    public int FuzzyToCrisp(double valorIS)
+    {
 
-        int level=0;
+        int level = 0;
         if (valorIS > 0 && valorIS <= 0.30)
         {
             level = 1;
@@ -230,10 +234,11 @@ public class FuzzyLogic {
         {
             level = 4;
         }
-        else if (valorIS >= 0.90 && valorIS <= 1.00) {
+        else if (valorIS >= 0.90 && valorIS <= 1.00)
+        {
             level = 5;
         }
-        Debug.Log("Valor IS:  " + valorIS + "   Nuevo nivel:  "+ level);
+        Debug.Log("Valor IS:  " + valorIS + "   Nuevo nivel:  " + level);
         return level;
     }
 }

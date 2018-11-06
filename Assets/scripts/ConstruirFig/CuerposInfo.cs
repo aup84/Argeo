@@ -16,19 +16,19 @@ public class CuerposInfo{
 		datos = new List<Aux1> ();
 		terminados = new List<string> ();
 		gameTargets = new List<string> ();
-		datos.Add (new Aux1 (0, "Cil_Paralelo_Base", "Cilindro Paralelo a la Base", "Paralelo a la Base"));
-		datos.Add (new Aux1 (1, "Cil_Perpendicular_Base", "Cilindro Perpendicular a la Base", "Perpendicular a la Base"));
-		datos.Add (new Aux1 (2, "Cilindro_Oblicuo", "Cilindro Oblicuo a la Base", "Oblicuo a la Base"));
+		datos.Add (new Aux1 (0, "Cil_Paralelo_Base", "Cilindro Paralelo a la Base", "Paralelo a la Base",1));
+		datos.Add (new Aux1 (1, "Cil_Perpendicular_Base", "Cilindro Perpendicular a la Base", "Perpendicular a la Base",1));
+		datos.Add (new Aux1 (2, "Cilindro_Oblicuo", "Cilindro Oblicuo a la Base", "Oblicuo a la Base",2));
 
-		datos.Add (new Aux1 (3, "Cono_Paralelo_Base", "Cono Paralelo a la Base", "Paralelo a la Base"));
-		datos.Add (new Aux1 (4, "Cono_Perpendicular_Base", "Cono Perpendicular a la Base",  "Perpendicular a la Base"));
-		datos.Add (new Aux1 (5, "Cono_Oblicuo_Base", "Cono Oblicuo a la Base", "Oblicuo a la Base"));
-		datos.Add (new Aux1 (6, "Cono_Paralelo_Generatriz", "Cono Paralelo a la Generatriz", "Paralelo a la Generatriz"));
+		datos.Add (new Aux1 (3, "Cono_Paralelo_Base", "Cono Paralelo a la Base", "Paralelo a la Base", 2));
+		datos.Add (new Aux1 (4, "Cono_Perpendicular_Base", "Cono Perpendicular a la Base",  "Perpendicular a la Base", 2));
+		datos.Add (new Aux1 (5, "Cono_Oblicuo_Base", "Cono Oblicuo a la Base", "Oblicuo a la Base",3));
+		datos.Add (new Aux1 (6, "Cono_Paralelo_Generatriz", "Cono Paralelo a la Generatriz", "Paralelo a la Generatriz", 3));
 
 		foreach (Aux1 t in datos) {
-			gameTargets.Add (t.getDesc() + "A");
-			gameTargets.Add (t.getDesc() + "B");
-			terminados.Add (t.getDesc ());
+			gameTargets.Add (t.Descripcion + "A");
+			gameTargets.Add (t.Descripcion + "B");
+			terminados.Add (t.Descripcion);
 		}
 		Debug.Log ("Datos Cargados Satisfactoriamente. Elementos en pantalla " + gameTargets.Count + ". Targets" + terminados.Count);
 	//	Orden ();
@@ -43,12 +43,12 @@ public class CuerposInfo{
 	}
 */
 	//Obtener Busqueda por una descripcion
-	public string getDescripcion(string concepto){
+	public string GetDescripcion(string concepto){
 		if (datos.Count > 0) {			
-			var temp = datos.Find (x => x.getDesc () == concepto);
+			var temp = datos.Find (x => x.Descripcion == concepto);
 			//Text txtTarget = GameObject.Find ("txtTarget").GetComponent<Text> ();
 			//txtTarget.text = temp.getFiguraConcepto ().ToString ();
-			return temp.getFiguraConcepto ().ToString ();
+			return temp.FiguraConcepto;
 		}
 		return "Elemento no encontrado";
 	}
@@ -76,7 +76,7 @@ public class CuerposInfo{
 	}
 
 
-	public string getNextItem(){
+	public string GetNextItem(){
 		if (terminados.Count > 0) {	
 			Debug.Log ("Elementos restantes: " + terminados.Count);
 			return terminados.First();
@@ -84,19 +84,30 @@ public class CuerposInfo{
 		return "Elemento no encontrado";
 	}
 
-	public string getNextItemCorte(){
+    public string GetNextItem(int Nivel)
+    {
+        if (terminados.Count > 0)
+        {
+            var temp = datos.Where (x => x.Nivel == Nivel);
+            Debug.Log("Elementos restantes: " + terminados.Count);
+            return terminados.First();
+        }
+        return "Elemento no encontrado";
+    }
+
+    public string GetNextItemCorte(){
 		if (terminados.Count > 0) {	
-			var temp = datos.Find (x => x.getDesc () == terminados.First());
-			Debug.Log ("Corte " + temp.getCorte ());
-			return temp.getCorte();
+			var temp = datos.Find (x => x.Descripcion == terminados.First());
+			Debug.Log ("Corte " + temp.Corte );
+			return temp.Corte;
 		}
 		return "Elemento no encontrado";
 	}
 
-	public string getNextItemFigura(){
+	public string GetNextItemFigura(){
 		if (terminados.Count > 0) {	
-			var temp = datos.Find (x => x.getDesc () == terminados.First());
-			string[] dat = temp.getFiguraConcepto ().Split ('_');
+			var temp = datos.Find (x => x.Descripcion == terminados.First());
+			string[] dat = temp.FiguraConcepto.Split ('_');
 			Debug.Log (dat [0]);
 			return dat [0];
 		}
