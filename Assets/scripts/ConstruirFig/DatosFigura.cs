@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Aux1 {
+public class DatosFigura {
 
     public int Nivel { get; set; }
     public string Descripcion { get; set; }
@@ -10,7 +10,7 @@ public class Aux1 {
 	public string FiguraConcepto { get; set; }
 	public string Corte { get; set; }
 
-    public Aux1(int Indice, string Descripcion, string FiguraConcepto, string Corte, int Nivel)
+    public DatosFigura(int Indice, string Descripcion, string FiguraConcepto, string Corte, int Nivel)
 	{
 		this.Indice = Indice;
 		this.Descripcion = Descripcion;

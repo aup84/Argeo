@@ -218,25 +218,17 @@ public class FuzzyConstruirFig {
     {
 
         int level = 0;
-        if (valorIS > 0 && valorIS <= 0.30)
+        if (valorIS > 0 && valorIS <= 0.46)
         {
             level = 1;
         }
-        else if (valorIS > 0.30 && valorIS <= 0.50)
+        else if (valorIS > 0.46 && valorIS <= 0.70)
         {
             level = 2;
-        }
-        else if (valorIS > 0.50 && valorIS <= 0.70)
+        }       
+        else if (valorIS >= 0.70 && valorIS <= 1.00)
         {
             level = 3;
-        }
-        else if (valorIS > 0.70 && valorIS < 0.90)
-        {
-            level = 4;
-        }
-        else if (valorIS >= 0.90 && valorIS <= 1.00)
-        {
-            level = 5;
         }
         Debug.Log("Valor IS:  " + valorIS + "   Nuevo nivel:  " + level);
         return level;
