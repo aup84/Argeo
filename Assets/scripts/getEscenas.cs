@@ -15,6 +15,7 @@ public class getEscenas : MonoBehaviour {
 		escenas.Add ("VolFiguras");
 		escenas.Add ("AreaFiguras");
         escenas.Add("newMenu");
+        escenas.Add("FigInc");
         Debug.Log("Escenas cargadas:  "+ SceneManager.sceneCount);
 	}
 	
@@ -45,12 +46,25 @@ public class getEscenas : MonoBehaviour {
 		int indice = 3;
 		OnSetScene(indice);
 	}
+
 	public void OnclicAreaFiguras(){
 		int indice = 4;
 		OnSetScene(indice);
 	}
 
-	public void OnClickQuit() {
+    public void OnclicNewMenu()
+    {
+        int indice = 5;
+        OnSetScene(indice);
+    }
+
+    public void OnClickFigInc()
+    {
+        int indice = 6;
+        OnSetScene(indice);
+    }
+
+    public void OnClickQuit() {
 		Application.Quit ();
 	}
 
