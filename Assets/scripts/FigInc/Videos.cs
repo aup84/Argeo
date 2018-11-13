@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -17,12 +18,30 @@ public class Videos : MonoBehaviour {
         GameObject videoPlayer = GameObject.Find("Visor");
         
         videoPlayer.AddComponent<VideoPlayer>();
-        
-        string url = "File://" + Application.dataPath + "/StreamingAssets/video/FigInc/" + urlVideo + ".wmv";
+        string url;
 
-        using (var www = new WWW(url)) {
-            yield return www;
-            videoPlayer.GetComponent<VideoPlayer>().url = url;        
+        #if UNITY_EDITOR
+            string filePath = Path.Combine(Application.streamingAssetsPath + "/video/FigInc/", urlVideo + ".mp4");
+        #elif UNITY_IOS
+                        string filePath = Path.Combine (Application.streamingAssetsPath + "/Raw", urlVideo); 
+        #elif UNITY_ANDROID
+            string filePath = Path.Combine ("jar:file://" + Application.dataPath + "!assets/video/FigInc/", urlVideo + ".mp4");
+        #endif
+        /*
+        if (Application.isMobilePlatform)
+        {
+          //  url = "jar:file://" + Application.persistentDataPath + "/StreamingAssets/video/FigInc/" + urlVideo + ".mp4";
+            url = "jar:file://" + Application.streamingAssetsPath + "/video/FigInc/" + urlVideo + ".mp4";
+        }
+        else
+        {
+            url = "File://" + Application.dataPath + "/StreamingAssets/video/FigInc/" + urlVideo + ".mp4";
+        }*/
+
+
+        using (var www = new WWW(filePath)) {
+            yield return www;          
+            videoPlayer.GetComponent<VideoPlayer>().url = filePath;        
             videoPlayer.GetComponent<VideoPlayer>().playOnAwake = false;
 
             videoPlayer.GetComponent<VideoPlayer>().renderMode = VideoRenderMode.MaterialOverride;
@@ -34,8 +53,8 @@ public class Videos : MonoBehaviour {
             videoPlayer.GetComponent<VideoPlayer>().frame = 100;
             videoPlayer.GetComponent<VideoPlayer>().isLooping = true;
             videoPlayer.GetComponent<VideoPlayer>().playbackSpeed = 3f;
-            // Each time we reach the end, we slow down the playback by a factor of 10.
-            //videoPlayer.GetComponent<VideoPlayer>().loopPointReached += EndReached;
+            videoPlayer.GetComponent<VideoPlayer>().audioOutputMode = VideoAudioOutputMode.None;
+        
             videoPlayer.GetComponent<VideoPlayer>().Play();
         }
     }

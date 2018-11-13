@@ -1866,10 +1866,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Este ejercicio da apoyo al contenido 9.5.3 del curso de Matem\xE1ticas
-    III: \u201CConstrucci\xF3n de las f\xF3rmulas para calcular el volumen de prismas
-    y cilindros.\u201D\r\n\nSe espera que el estudiante sepa c\xF3mo calcular el \xE1rea
-    de la base de un prisma regular y de un cilindro. \r\n"
+  m_Text: "Este ejercicio da apoyo al contenido 9.5.2 del curso de Matem\xE1ticas
+    III: \u201CIdentificaci\xF3n de Cuerpos y planos geom\xE9tricos.\u201D\r\n\nSe
+    espera que el estudiante sepa c\xF3mo distinguir un prisma respecto a una pir\xE1mide.
+    \r\n"
 --- !u!222 &423773748
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3721,9 +3721,9 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "1.- Coloca sobre la c\xE1mara el marcador de la figura que se te pide.\n2.-
-    Escribe en el cuadro de texto el resultado de calcular el \xE1rea de la base de
-    la figura utilizando las medidas que aparecen en pantalla.\n3.- Presiona Calcular
-    para validar el resultado.\n4.- Repite el proceso con las figuras que se te piden."
+    Observa la animaci\xF3n de como se forma el cuerpo geom\xE9trico.\n3.- Presiona
+    Continuar para identificar otro elemento.\n4.- Repite el proceso hasta completar
+    el ejercicio."
 --- !u!222 &921317313
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6197,7 +6197,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1310641943}
-        m_MethodName: OnclicAreaFiguras
+        m_MethodName: OnClickFigInc
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8048,7 +8048,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\xC1rea de Base de Cuerpos Geom\xE9tricos"
+  m_Text: "Identificacion de Planos Geom\xE9tricos"
 --- !u!222 &2122715343
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -41,12 +41,12 @@ public class GameRules {
 		targets[3,2] = "Cono";
 		targets[4,2] = "Cubo";
 		targets[5,2] = "Dodecaedro";
-		targets[6,2] = "Pirámide Pentagonal";
+		targets[6,2] = "Piramide Pentagonal";
 		targets[7, 2] = "Octaedro";
-		targets[8,2] = "Pirámide Truncada";
+		targets[8,2] = "Piramide Trunca";
 		targets[9,2] = "Prisma Pentagonal";
 		targets[10,2] = "Tetraedro";
-		targets[11,2] = "Cono Truncado";
+		targets[11,2] = "Cono Trunco";
         targets[12, 2] = "Prisma Triangular";
         targets[13, 2] = "Prisma Rectangular";
 
@@ -187,8 +187,10 @@ public class GameRules {
 				else {
 					textura.LoadImage(File.ReadAllBytes(Application.dataPath + "/icons/" + arch + ".png"));
 				}
-					
-				imgStar.texture = textura;
+                GameObject.Find("Visor").GetComponent<Videos>().AbrirVideo();
+
+
+                imgStar.texture = textura;
                 GameObject.Find("txtAyuda").GetComponent<Text>().text = "";
 				//MostrarPanel (result);
 				pausar = true;
@@ -269,7 +271,7 @@ public class GameRules {
             case "Octaedro":
                 txtAyuda.text = "El Octaedro es un poliedro de ocho caras. Sus caras han de ser polígonos de siete lados o menos. Si las ocho caras del octaedro son triángulos equiláteros, iguales entre sí, el octaedro es convexo y se denomina regular.";
                 break;
-            case "Pirámide Truncada":
+            case "Piramide Trunca":
                 txtAyuda.text = "Una Pirámide Truncada es un poliedro comprendido entre la base de la pirámide y un plano que corta a todas las aristas laterales";
                 break;
            	case "Prisma Pentagonal":
@@ -277,11 +279,8 @@ public class GameRules {
 				break;
 			case "Tetraedro":
 				txtAyuda.text = "El Tetraedro es un poliedro de cuatro caras. Si las cuatro caras del tetraedro son triángulos equiláteros, iguales entre sí, el tetraedro se denomina regular.";
-				break;
-			case "Cápsula":
-				txtAyuda.text = "Una Cápsula tiene extremos cilóndrico encajado en forma rectangular circular.";
-				break;
-			case "Cono Truncado":
+				break;		
+			case "Cono Trunco":
 				txtAyuda.text = "Un Cono Truncado es un cuerpo geométrico que resulta al cortar un cono por un plano paralelo a la base y separar la parte que contiene al vértice.";
 				break;
 			case "Prisma Triangular":
